@@ -19,7 +19,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
-                            implements OptionsFragment.OnFragmentInteractionListener {
+                            implements OptionsFragment.OnFragmentInteractionListener,
+                                        StartingFragment.OnFragmentInteractionListener,
+                                        ScheduleFragment.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
