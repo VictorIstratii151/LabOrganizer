@@ -1,0 +1,305 @@
+{
+	"groups": [
+		{
+			"FAF-151": {
+				"odd": {
+					"Monday": {
+						"1": {
+							"name": "Systems Theory",
+							"cabinet": "202",
+							"teacher": "Irina Cojuhari",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": false
+						},
+						"2": {
+							"name": "Signal Processing",
+							"cabinet": "202",
+							"teacher": "Serghei Railean",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false
+						},
+						"3": {
+							"name": "Signal Processing",
+							"cabinet": "427",
+							"teacher": "Serghei Railean",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": true
+						},
+						"4": {
+							"name": "Signal Processing",
+							"cabinet": "427",
+							"teacher": "Serghei Railean",
+							"start": "13:30",
+							"end": "15:00",
+							"lab": true
+						}
+					},
+					"Tuesday": {
+						"1": null,
+						"2": {
+							"name": "Object-Oriented Analysis and Design",
+							"cabinet": "405",
+							"teacher": "Andrei Postaru",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false 
+						},
+						"3": {
+							"name": "Network Programming",
+							"cabinet": "3-3",
+							"teacher": "Dumitru Ciorba",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false 
+						}
+					},
+					"Wetnesday": {
+						"1": {
+							"name": "Databases",
+							"cabinet": "114",
+							"teacher": "Irina Cojanu",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": true
+						},
+						"2": {
+							"name": "Databases",
+							"cabinet": "114",
+							"teacher": "Irina Cojanu",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": true
+						},
+						"3": {
+							"name": "Multimedia Systems",
+							"cabinet": "3-3",
+							"teacher": "P. Chirev",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false  
+						},
+						"4": {
+							"name": "Multimedia Systems",
+							"cabinet": "3-3",
+							"teacher": "P. Chirev",
+							"start": "13:30",
+							"end": "15:00",
+							"lab": false
+						}
+					},
+					"Thursday": {
+						"1": {
+							"name": "Object-Oriented Analysis and Design",
+							"cabinet": "513",
+							"teacher": "Anastasia Sersun",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": true  
+						},
+						"2": {
+							"name": "Object-Oriented Analysis and Design",
+							"cabinet": "513",
+							"teacher": "Anastasia Sersun",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": true
+						},
+						"3": {
+							"name": "Systems Theory",
+							"cabinet": "513 B",
+							"teacher": "Irina Cojuhari",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false
+						}
+					},
+					"Friday": {
+						"1": {
+							"name": "Databases",
+							"cabinet": "505",
+							"teacher": "Vitalie Cotelea",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": false
+						},
+						"2": {
+							"name": "Marketing",
+							"cabinet": "202",
+							"teacher": "Rafael Ciloci",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false 
+						},
+						"3": {
+							"name": "Marketing",
+							"cabinet": "202",
+							"teacher": "Rafael Ciloci",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false
+						}
+					}
+				},
+				"even": {
+					"Monday": {
+						"1": {
+							"name": "Systems Theory",
+							"cabinet": "202",
+							"teacher": "Irina Cojuhari",
+							"start": "80:00",
+							"end": "09:30",
+							"lab": false 
+						},
+						"2": {
+							"name": "Signal Processing",
+							"cabinet": "202",
+							"teacher": "Serghei Railean",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false
+						},
+						"3": {
+							"name": "Signal Processing",
+							"cabinet": "427",
+							"teacher": "Serghei Railean",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": true
+						},
+						"4": {
+							"name": "Signal Processing",
+							"cabinet": "427",
+							"teacher": "Serghei Railean",
+							"start": "13:30",
+							"end": "15:00",
+							"lab": true
+						}
+					},
+					"Tuesday": {
+						"1": {
+							"name": "Object-Oriented Analysis and Design",
+							"cabinet": "202",
+							"teacher": "Anastasia Sersun",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": false
+						},
+						"2": {
+							"name": "Object-Oriented Analysis and Design",
+							"cabinet": "405",
+							"teacher": "Andrei Postaru",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false
+						},
+						"3": {
+							"name": "Network Programming",
+							"cabinet": "3-3",
+							"teacher": "Dumitru Ciorba",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false
+						}
+					},
+					"Wetnesday": {
+						"1": {
+							"name": "Multimedia Systems",
+							"cabinet": "502 A",
+							"teacher": "Doina Bisericanu",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": true
+						},
+						"2": {
+							"name": "Multimedia",
+							"cabinet": "502 A",
+							"teacher": "Doina Bisericanu",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": true
+						},
+						"3": {
+							"name": "Multimedia Systems",
+							"cabinet": "3-3",
+							"teacher": "P. Chirev",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false
+						},
+						"4": {
+							"name": "Network Programming",
+							"cabinet": "3-3",
+							"teacher": "Dumitru Ciorba",
+							"start": "13:30",
+							"end": "15:00",
+							"lab": false
+						}
+					},
+					"Thursday": {
+						"1": {
+							"name": "Network Programming",
+							"cabinet": "513",
+							"teacher": "Alex Gavrisco",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": true
+						},
+						"2": {
+							"name": "Network Programming",
+							"cabinet": "513",
+							"teacher": "Alex Gavrisco",
+							"start": "09:30",
+							"end": "11:15",
+							"lab": true
+						},
+						"3": {
+							"name": "Systems Theory",
+							"cabinet": "513 B",
+							"teacher": "Irina Cojuhari",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": true
+						},
+						"4": {
+							"name": "Systems Theory",
+							"cabinet": "513 B",
+							"teacher": "Irina Cojuhari",
+							"start": "13:30",
+							"end": "15:00",
+							"lab": true
+						}
+					},
+					"Friday": {
+						"1": {
+							"name": "Databases",
+							"cabinet": "505",
+							"teacher": "Vitalie Cotelea",
+							"start": "08:00",
+							"end": "09:30",
+							"lab": false
+						},
+						"2": {
+							"name": "Marketing",
+							"cabinet": "202",
+							"teacher": "Rafael Ciloci",
+							"start": "09:45",
+							"end": "11:15",
+							"lab": false
+						},
+						"3": {
+							"name": "Marketing",
+							"cabinet": "202",
+							"teacher": "Rafael Ciloci",
+							"start": "11:30",
+							"end": "13:00",
+							"lab": false
+						}
+					}
+				}
+			}
+		}
+	]
+}
