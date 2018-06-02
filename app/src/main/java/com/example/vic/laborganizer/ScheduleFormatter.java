@@ -44,4 +44,33 @@ public class ScheduleFormatter {
 
         return week;
     }
+
+    public static String getDailyLessons(String week, String dayOfWeek) {
+        String weekStr = null;
+        try {
+            JSONObject weekObj = new JSONObject(week);
+            weekStr = weekObj.get(dayOfWeek).toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return weekStr;
+    }
+
+    public static String getLesson(String dayLessons, String lessonNumber) {
+        String lesson = "No lesson";
+        try {
+            JSONObject dayObj = new JSONObject(dayLessons);
+            if(dayObj.get(lessonNumber) != null) {
+                lesson = dayObj.get(lessonNumber).toString();
+            }
+            else {
+                lesson = "blank";
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return lesson;
+    }
 }
