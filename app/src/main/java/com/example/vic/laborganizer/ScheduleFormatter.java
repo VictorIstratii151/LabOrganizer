@@ -73,4 +73,16 @@ public class ScheduleFormatter {
 
         return lesson;
     }
+
+    public static String getLessonDetail(String lesson, String detailName) {
+        String detail = null;
+        try {
+            JSONObject obj = new JSONObject(lesson);
+            detail = obj.get(detailName).toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return detail;
+    }
 }
