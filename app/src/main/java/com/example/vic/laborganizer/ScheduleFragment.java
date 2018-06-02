@@ -2,10 +2,12 @@ package com.example.vic.laborganizer;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,15 +15,19 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 /**
@@ -44,6 +50,7 @@ public class ScheduleFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private SharedPreferences prefs = null;
+    public static  List<String> DAYS_OF_WEEK = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 
     public ScheduleFragment() {
         // Required empty public constructor
@@ -72,29 +79,45 @@ public class ScheduleFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Button testJson = (Button) view.findViewById(R.id.buttonParse);
-        testJson.setOnClickListener(new View.OnClickListener() {
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        final TextView tvSchedule = (TextView) view.findViewById(R.id.textViewSchedule);
+        tvSchedule.setText("");
+
+        Button getSchedule = (Button) view.findViewById(R.id.buttonWriteSchedule);
+        getSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tvSchedule.setText("");
+                prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String groupname = prefs.getString("group_name", "FAF-151");
+
+                JSONDecoder decoder = new JSONDecoder();
+                String group = ScheduleFormatter.getGroup(decoder.decodeFromFile("schedule.json", getActivity()), groupname);
+                String weekType = prefs.getString("week_type", "odd");
+                String week = ScheduleFormatter.getWeek(group, weekType);
+
+                for(int i = 0; i < 5; i++) {
+                    String currentDay = DAYS_OF_WEEK.get(i);
+                    tvSchedule.append(Html.fromHtml("<b>" + currentDay + "</b>"));
+                    tvSchedule.append("\n\n");
+                    String currentDayLessons = ScheduleFormatter.getDailyLessons(week, DAYS_OF_WEEK.get(i));
+                    for(int  j = 0; j < 6; j++) {
+                        String lesson = ScheduleFormatter.getLesson(currentDayLessons, String.valueOf(j + 1));
+
+                        if (!lesson.equals("No Lesson") && !lesson.equals("null")) {
+                            tvSchedule.append("lesson " + String.valueOf(j + 1) + ": "  + ScheduleFormatter.getLessonDetail(lesson, "name") + "\n");
+                            tvSchedule.append("cabinet:  " + ScheduleFormatter.getLessonDetail(lesson, "cabinet") + "\n");
+                            tvSchedule.append("teacher:  " + ScheduleFormatter.getLessonDetail(lesson, "teacher") + "\n");
+                            tvSchedule.append("at:  " + ScheduleFormatter.getLessonDetail(lesson, "start") + "\n\n");
+                        }
+                        else {
+                            tvSchedule.append("lesson " + String.valueOf(j + 1) + ":"  + "No Lesson\n\n");
+                        }
 
 
-//                try {
-//                    JSONObject obj = new JSONObject(loadJSONFromAsset());
-//                    JSONArray m_jArry = obj.getJSONArray("groups");
-//
-//                    for(int i = 0; i < m_jArry.length(); i++) {
-//                        JSONObject groupObj = m_jArry.getJSONObject(i);
-//                        String groupname = groupObj.keys().next();
-//                        JSONObject group = groupObj.getJSONObject(groupname);
-//                        JSONObject odd = group.getJSONObject("odd");
-//                        JSONObject monday = odd.getJSONObject("Monday");
-//                        JSONObject firstONe = monday.getJSONObject("1");
-//                        Log.d("prof name-->", firstONe.getString("teacher"));
-//                    }
-//
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
+                    }
+                }
+
             }
         });
 
@@ -145,21 +168,5 @@ public class ScheduleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    public String loadJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = getActivity().getAssets().open("schedule.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 }
