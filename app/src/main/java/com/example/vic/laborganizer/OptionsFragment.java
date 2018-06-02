@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,8 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -32,13 +36,23 @@ public class OptionsFragment extends Fragment implements AdapterView.OnItemSelec
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private static final int SUBGR_1_RADIO_ID = 0;
+    private static final int SUBGR_2_RADIO_ID = 1;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+
+    public static List<String> LAB_SUBGROUPS = Arrays.asList("subgr1", "subgr2");
+
     private OnFragmentInteractionListener mListener;
     private SharedPreferences prefs = null;
     private Spinner groupsSpinner;
+    private RadioGroup subgrRadioGroup;
+    private RadioButton radio_sub1;
+    private RadioButton radio_sub2;
+    private Button submitOptions;
 
     public OptionsFragment() {
         // Required empty public constructor
@@ -53,6 +67,7 @@ public class OptionsFragment extends Fragment implements AdapterView.OnItemSelec
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,22 +81,39 @@ public class OptionsFragment extends Fragment implements AdapterView.OnItemSelec
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
         groupsSpinner = (Spinner) view.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.group_names, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         groupsSpinner.setAdapter(adapter);
         groupsSpinner.setOnItemSelectedListener(this);
 
-        Button btnSetPrefs = (Button) view.findViewById(R.id.buttonOptions);
-        btnSetPrefs.setOnClickListener(new View.OnClickListener() {
+
+        subgrRadioGroup = (RadioGroup) view.findViewById(R.id.radioGroup);
+        radio_sub1 = (RadioButton) view.findViewById(R.id.radioSubgr1);
+        radio_sub2 = (RadioButton) view.findViewById(R.id.radioSubgr2);
+        radio_sub1.setId(SUBGR_1_RADIO_ID);
+        radio_sub2.setId(SUBGR_2_RADIO_ID);
+        int defaultRadioId = prefs.getInt("subgr_number", 1) - 1;
+        ((RadioButton)subgrRadioGroup.getChildAt(defaultRadioId)).setChecked(true);
+
+        submitOptions = (Button) view.findViewById(R.id.btnSubmitOptions);
+        submitOptions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int selectedRadio = subgrRadioGroup.getCheckedRadioButtonId();
                 prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("group_name", "TI-151");
-                editor.commit();
+                editor.putString("group_name", groupsSpinner.getSelectedItem().toString());
+                editor.putInt("subgr_number", selectedRadio + 1);
+
+                editor.apply();
+
             }
         });
+
+
 
         Button btnPrefs = (Button) view.findViewById(R.id.buttonGetprefs);
         btnPrefs.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +121,7 @@ public class OptionsFragment extends Fragment implements AdapterView.OnItemSelec
             public void onClick(View v) {
                 prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 Log.e("default group: ", prefs.getString("group_name", "FAF-151"));
+                Log.e("default subgroup: ", String.valueOf(prefs.getInt("subgr_number", 1)));
             }
         });
     }
