@@ -1,5 +1,6 @@
 package com.example.vic.laborganizer;
 
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
+//    SharedPreferences prefs = null;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -58,7 +61,25 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+//        prefs = getSharedPreferences("com.example.vic.laborganizer", MODE_PRIVATE);
+
     }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//
+//        if (prefs.getBoolean("firstrun", true)) {
+//            SharedPreferences.Editor editor = getSharedPreferences("com.example.vic.laborganizer", MODE_PRIVATE).edit();
+//            editor.putString("group_name", "FAF-151");
+//            editor.putInt("lab_subgroup", 1);
+//            editor.apply();
+//            Log.e("default group: ", prefs.getString("group_name", "sas"));
+//            // Do first run stuff here then set 'firstrun' as false
+//            // using the following line to edit/commit prefs
+//            prefs.edit().putBoolean("firstrun", false).commit();
+//        }
+//    }
 
 
     @Override
@@ -84,41 +105,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
@@ -132,11 +118,11 @@ public class MainActivity extends AppCompatActivity
         public Fragment getItem(int position) {
             switch(position){
                 case 0:
-                    return OptionsFragment.newInstance(0, "Options");
+                    return StartingFragment.newInstance("0", "Start");
                 case 1:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return ScheduleFragment.newInstance("1", "Schedule");
                 case 2:
-                    return PlaceholderFragment.newInstance(position + 1);
+                    return OptionsFragment.newInstance("2", "Options");
                 default:
                     return null;
             }

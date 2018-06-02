@@ -1,12 +1,27 @@
 package com.example.vic.laborganizer;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -24,19 +39,20 @@ public class ScheduleFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private SharedPreferences prefs = null;
 
     public ScheduleFragment() {
         // Required empty public constructor
     }
 
-    public static ScheduleFragment newInstance(int page, String title) {
+    public static ScheduleFragment newInstance(String page, String title) {
         ScheduleFragment fragment = new ScheduleFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, page);
+        args.putString(ARG_PARAM1, page);
         args.putString(ARG_PARAM2, title);
         fragment.setArguments(args);
         return fragment;
@@ -46,9 +62,43 @@ public class ScheduleFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        Button testJson = (Button) view.findViewById(R.id.buttonParse);
+        testJson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+//                try {
+//                    JSONObject obj = new JSONObject(loadJSONFromAsset());
+//                    JSONArray m_jArry = obj.getJSONArray("groups");
+//
+//                    for(int i = 0; i < m_jArry.length(); i++) {
+//                        JSONObject groupObj = m_jArry.getJSONObject(i);
+//                        String groupname = groupObj.keys().next();
+//                        JSONObject group = groupObj.getJSONObject(groupname);
+//                        JSONObject odd = group.getJSONObject("odd");
+//                        JSONObject monday = odd.getJSONObject("Monday");
+//                        JSONObject firstONe = monday.getJSONObject("1");
+//                        Log.d("prof name-->", firstONe.getString("teacher"));
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+            }
+        });
+
+
     }
 
     @Override
@@ -95,5 +145,21 @@ public class ScheduleFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getActivity().getAssets().open("schedule.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 }

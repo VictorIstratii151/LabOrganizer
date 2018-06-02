@@ -24,7 +24,7 @@ public class StartingFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private int mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
@@ -32,11 +32,11 @@ public class StartingFragment extends Fragment {
     public StartingFragment() {
         // Required empty public constructor
     }
-    
-    public static StartingFragment newInstance(int page, String title) {
+
+    public static StartingFragment newInstance(String page, String title) {
         StartingFragment fragment = new StartingFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, page);
+        args.putString(ARG_PARAM1, page);
         args.putString(ARG_PARAM2, title);
         fragment.setArguments(args);
         return fragment;
@@ -46,7 +46,7 @@ public class StartingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
