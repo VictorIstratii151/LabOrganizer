@@ -10,6 +10,7 @@ public class ScheduleFormatter {
 
     public static String getGroup(String jsonSchedule, String groupFlag) {
         JSONObject group = null;
+        String groupStr = null;
         try {
             JSONObject obj = new JSONObject(jsonSchedule);
             JSONArray groups = obj.getJSONArray("groups");
@@ -21,35 +22,26 @@ public class ScheduleFormatter {
                 if(groupname.equals(groupFlag))
                 {
                     group = groupObj;
+                    groupStr = group.getJSONObject(groupFlag).toString();
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        Log.d("group-->", group.toString());
-
-        return group.toString();
+        return groupStr;
     }
 
-    public String getWeek(String jsonSchedule, String weekFlag) {
+    public static String getWeek(String jsonGroup, String weekFlag) {
+        String week = null;
+
         try {
-            JSONObject obj = new JSONObject(jsonSchedule);
-//            JSONArray m_jArry = obj.getJSONArray("groups");
-//
-//            for(int i = 0; i < m_jArry.length(); i++) {
-//                JSONObject groupObj = m_jArry.getJSONObject(i);
-//                String groupname = groupObj.keys().next();
-//                JSONObject group = groupObj.getJSONObject(groupname);
-//                JSONObject odd = group.getJSONObject("odd");
-//                JSONObject monday = odd.getJSONObject("Monday");
-//                JSONObject firstONe = monday.getJSONObject("1");
-//                Log.d("prof name-->", firstONe.getString("teacher"));
-//            }
+            JSONObject obj = new JSONObject(jsonGroup);
+            week = obj.getJSONObject(weekFlag).toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        return "sas";
+        return week;
     }
 }
