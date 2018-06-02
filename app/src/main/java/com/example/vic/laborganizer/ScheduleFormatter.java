@@ -58,14 +58,11 @@ public class ScheduleFormatter {
     }
 
     public static String getLesson(String dayLessons, String lessonNumber) {
-        String lesson = "No lesson";
+        String lesson = "No Lesson";
         try {
             JSONObject dayObj = new JSONObject(dayLessons);
             if(dayObj.get(lessonNumber) != null) {
                 lesson = dayObj.get(lessonNumber).toString();
-            }
-            else {
-                lesson = "blank";
             }
         } catch (JSONException e) {
             e.printStackTrace();
