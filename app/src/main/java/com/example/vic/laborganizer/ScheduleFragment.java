@@ -1,6 +1,11 @@
 package com.example.vic.laborganizer;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -52,6 +57,11 @@ public class ScheduleFragment extends Fragment {
     private SharedPreferences prefs = null;
     public static  List<String> DAYS_OF_WEEK = Arrays.asList("Monday", "Tuesday", "Wednesday", "Thursday", "Friday");
 
+    Context _context;
+    BroadcastReceiver br;
+    PendingIntent pi;
+    AlarmManager am;
+
     public ScheduleFragment() {
         // Required empty public constructor
     }
@@ -63,6 +73,28 @@ public class ScheduleFragment extends Fragment {
         args.putString(ARG_PARAM2, title);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void setup() {
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent i)
+            {
+                Log.e("RECEIVED: ", "CONFIRMED");
+                prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+                String thisWeek = prefs.getString("current_week", "odd");
+                String nextWeek = prefs.getString("next_week", "even");
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("current_week", nextWeek);
+                editor.putString("next_week", thisWeek);
+
+                editor.apply();
+            }
+        };
+        _context.registerReceiver(br, new IntentFilter("com.example.vic.laborganizer.setup"));
+        pi = PendingIntent.getBroadcast(_context, 0, new Intent("com.example.vic.laborganizer.setup"), 0);
+        am = (AlarmManager)(_context.getSystemService(Context.ALARM_SERVICE));
+
     }
 
     @Override
@@ -90,10 +122,11 @@ public class ScheduleFragment extends Fragment {
                 tvSchedule.setText("");
                 prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 String groupname = prefs.getString("group_name", "FAF-151");
+                Log.e("CURRENT WEEK IS: ", prefs.getString("current_week", "odd"));
 
                 JSONDecoder decoder = new JSONDecoder();
                 String group = ScheduleFormatter.getGroup(decoder.decodeFromFile("schedule.json", getActivity()), groupname);
-                String weekType = prefs.getString("week_type", "odd");
+                String weekType = prefs.getString("current_week", "odd");
                 String week = ScheduleFormatter.getWeek(group, weekType);
 
                 for(int i = 0; i < 5; i++) {
@@ -113,21 +146,18 @@ public class ScheduleFragment extends Fragment {
                         else {
                             tvSchedule.append("lesson " + String.valueOf(j + 1) + ":"  + "No Lesson\n\n");
                         }
-
-
                     }
                 }
 
             }
         });
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        setup();
         return inflater.inflate(R.layout.fragment_schedule, container, false);
     }
 
@@ -141,6 +171,7 @@ public class ScheduleFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        _context = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
@@ -153,6 +184,12 @@ public class ScheduleFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        _context.unregisterReceiver(br);
     }
 
     /**
