@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array
+        name="group_names">
+        <item>FAF-151</item>
+        <item>TI-151</item>
+        <item>SI-151</item>
+        <item>IA-151</item>
+    </string-array>
+</resources>

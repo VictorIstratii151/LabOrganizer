@@ -6,6 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class JSONDecoder implements IDecorer {
+    public JSONDecoder() {
+    }
+
     public String decodeFromFile(String filename, Context context)
     {
         String json = null;
