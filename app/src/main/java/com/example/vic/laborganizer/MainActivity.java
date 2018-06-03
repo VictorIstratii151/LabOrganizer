@@ -1,5 +1,9 @@
 package com.example.vic.laborganizer;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
@@ -20,6 +24,8 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity
                             implements OptionsFragment.OnFragmentInteractionListener,
                                         StartingFragment.OnFragmentInteractionListener,
@@ -35,6 +41,9 @@ public class MainActivity extends AppCompatActivity
      */
     private SectionsPagerAdapter mSectionsPagerAdapter;
 //    SharedPreferences prefs = null;
+
+    private AlarmManager alarmManager;
+    private PendingIntent alarmIntent;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -61,26 +70,25 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
-//        prefs = getSharedPreferences("com.example.vic.laborganizer", MODE_PRIVATE);
+        alarmManager = (AlarmManager) getBaseContext().getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        Intent intent = new Intent();
+        intent.setAction("com.example.vic.laborganizer.setup");
+        intent.putExtra("From", "sendInternalBroadcast");
+        sendBroadcast(intent);
+        alarmIntent = PendingIntent.getBroadcast(getBaseContext(), 0, intent, 0);
+
+        Log.e("SENGING: ", "CONFIRMED");
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 4);
+        calendar.set(Calendar.MINUTE, 20);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 1, alarmIntent);
 
     }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//
-//        if (prefs.getBoolean("firstrun", true)) {
-//            SharedPreferences.Editor editor = getSharedPreferences("com.example.vic.laborganizer", MODE_PRIVATE).edit();
-//            editor.putString("group_name", "FAF-151");
-//            editor.putInt("lab_subgroup", 1);
-//            editor.apply();
-//            Log.e("default group: ", prefs.getString("group_name", "sas"));
-//            // Do first run stuff here then set 'firstrun' as false
-//            // using the following line to edit/commit prefs
-//            prefs.edit().putBoolean("firstrun", false).commit();
-//        }
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
